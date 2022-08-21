@@ -11,6 +11,9 @@ from tabulate import tabulate
 # Note: If you change headers, you will need to change headersList and
 # table loop to reflect the order change.
 
+#OPTIONS:
+fileNameToggle = False #toggles in Tabulate.
+
 #Path Roots for easy modification
 rootPath = './'
 http = '{http://www.transxchange.org.uk/}'
@@ -41,8 +44,10 @@ fileList[:] = [x for x in fileList if x.endswith('.xml')]
 #Create list of Services and add static header for Tabulate.
 serviceList = []
 headerList = tableRow()
-serviceList.append([headerList.fileName, headerList.serviceCode, headerList.operatorID, headerList.lineName, headerList.origin, headerList.destination]) #for table headers
-
+if fileNameToggle:
+    serviceList.append([headerList.fileName, headerList.serviceCode, headerList.operatorID, headerList.lineName, headerList.origin, headerList.destination]) #for table headers
+else:
+    serviceList.append([headerList.serviceCode, headerList.operatorID, headerList.lineName, headerList.origin, headerList.destination]) #for table headers
 #Assuming there are files in directory, iterate through, insert to tableRow and
 #add to list.
 for fileName in fileList:
@@ -75,5 +80,8 @@ for fileName in fileList:
         if serviceRoute.tag == http + 'Destination':
             setattr(insertRow, 'destination', serviceRoute.text)
 
-    serviceList.append([insertRow.fileName, insertRow.serviceCode, insertRow.operatorID, insertRow.lineName, insertRow.origin, insertRow.destination])
+    if fileNameToggle:
+        serviceList.append([insertRow.fileName, insertRow.serviceCode, insertRow.operatorID, insertRow.lineName, insertRow.origin, insertRow.destination])
+    else:
+        serviceList.append([insertRow.serviceCode, insertRow.operatorID, insertRow.lineName, insertRow.origin, insertRow.destination])
 print(tabulate(serviceList, headers='firstrow',tablefmt='fancy_grid', showindex=True)) #print serviceList table
