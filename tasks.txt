@@ -1,6 +1,6 @@
 read from xml folder, loop through contents of folder and add to table DONE
 create table object and insert into table at end of each file loop DONE
-tidy up formatting
+tidy up formatting DONE
 remove print statements DONE
 use tabulate to prettify results at end DONE
 
