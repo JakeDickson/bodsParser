@@ -2,10 +2,14 @@ import os
 from xml.etree import ElementTree
 from tabulate import tabulate
 
-# TO USE: Extract XML files to 'xmlParser.py folder'/xml/ and run the python file. Output printed to terminal
-# ASSUMPTIONS: TransXChange format used, and files are not corrupt/incorrectly filled.
-# FUTURE WORK: Convert to C++ for speed. Extract ZIPs automatically with gzip etc.
-# Note: If you change headers, you will need to change headersList and table loop to reflect the order change.
+# TO USE: Extract XML files to 'xmlParser.py folder'/xml/ and run the python
+# file. Output printed to terminal 
+# ASSUMPTIONS: TransXChange format used, and files are not corrupt/incorrectly
+# filled. 
+# FUTURE WORK: Convert to C++ for speed. Extract ZIPs automatically with gzip
+# etc. 
+# Note: If you change headers, you will need to change headersList and
+# table loop to reflect the order change.
 
 #Path Roots for easy modification
 rootPath = './'
@@ -17,7 +21,7 @@ standardServicePath = servicePath + http + 'StandardService/'
 operatorPath = rootPath + http + 'Operators/'
 nationalOperatorCodePath = operatorPath + http + 'Operator/'
 
-#Define class for each table row. tableRow can be initialised as first row headers
+#Define table row class. tableRow can be initialised as first row headers
 class tableRow:
     def __init__(self):
         self.filePath = ''
@@ -39,7 +43,8 @@ serviceList = []
 headerList = tableRow()
 serviceList.append([headerList.fileName, headerList.serviceCode, headerList.operatorID, headerList.lineName, headerList.origin, headerList.destination]) #for table headers
 
-#Assuming there are files in directory, iterate through, insert to tableRow and add to list.
+#Assuming there are files in directory, iterate through, insert to tableRow and
+#add to list.
 for fileName in fileList:
     insertRow = tableRow()
     tree = ElementTree.parse(cwd + fileName)
