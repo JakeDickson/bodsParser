@@ -1,7 +1,9 @@
 # bodsParser - Basic XML Parser for TransXChange formats
 
 TO USE: Extract XML files to 'xmlParser.py folder'/xml/ and run the python
-file. Output is printed to terminal using Tabulate
+file (python3). Output is printed to terminal using Tabulate
+
+DEPENDENCIES: xml.etree, tabulate
 
 ASSUMPTIONS: TransXChange format used, and files are not corrupt/incorrectly
 filled. 
