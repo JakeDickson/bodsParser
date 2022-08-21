@@ -2,6 +2,11 @@ import os
 from xml.etree import ElementTree
 from tabulate import tabulate
 
+# TO USE: Extract XML files to "xmlParser.py folder"/xml/ and run the python file. Output printed to terminal
+# ASSUMPTIONS: TransXChange format used, and files are not corrupt/incorrectly filled.
+# FUTURE WORK: Convert to C++ for speed. Extract ZIPs automatically with gzip etc.
+# Note: If you change headers, you will need to change headersList and table loop to reflect the order change.
+
 #Path Roots for easy modification
 rootPath = "./"
 http = "{http://www.transxchange.org.uk/}"
@@ -15,6 +20,8 @@ nationalOperatorCodePath = operatorPath + http + "Operator/"
 #define class for each table row. Helpfully a tableRow can be initialised as first row headers :)
 class tableRow:
     def __init__(self):
+        self.filePath = ''
+        self.fileName = ''
         self.operatorID = 'Operator ID'
         self.noc = 'NOC'
         self.lineName = 'Line Name'
@@ -27,38 +34,41 @@ cwd = os.getcwd() + '/xml/'
 fileList = os.listdir(cwd)
 fileList[:] = [x for x in fileList if x.endswith('.xml')]
 
+#create list of services and add static header for tabulate.
+serviceList = []
+headerList = tableRow()
+serviceList.append([headerList.fileName, headerList.serviceCode, headerList.operatorID, headerList.lineName, headerList.origin, headerList.destination]) #for table headers
+
 #Assuming there is files in directory etc...
-for filePath in fileList:
-    tree = ElementTree.parse(cwd + filePath)
+for fileName in fileList:
+    insertRow = tableRow()
+    tree = ElementTree.parse(cwd + fileName)
     root = tree.getroot()
 
-    insertRow = tableRow()
+    if tree:
+        insertRow.filePath = cwd + fileName
+        insertRow.fileName = fileName
 
     for operatorID in root.findall(operatorPath):
-        print(operatorID.attrib['id']) #get operator ID
         setattr(insertRow, 'operatorID', operatorID.attrib['id'])
 
     for noc in root.findall(nationalOperatorCodePath):
         if noc.tag == (http + "NationalOperatorCode"):
-            print(noc.text) #NationalOperatorCode
             setattr(insertRow, 'noc', noc.text)
 
     for line in root.findall(linePath):
         if line.tag == http + "LineName":
-            print(line.text) #LineName
             setattr(insertRow, 'lineName', line.text)
 
     for service in root.findall(servicePath):
         if service.tag == http + "ServiceCode":
-            print(service.tag, service.text) #Service Code/ID?
             setattr(insertRow, 'serviceCode', service.text)
 
     for serviceRoute in root.findall(standardServicePath):
         if serviceRoute.tag == http + "Origin":
-            print(serviceRoute.tag, serviceRoute.text) #Origin
             setattr(insertRow, 'origin', serviceRoute.text)
         if serviceRoute.tag == http + "Destination":
-            print(serviceRoute.tag, serviceRoute.text) #Destination
             setattr(insertRow, 'destination', serviceRoute.text)
 
-    print(insertRow.serviceCode, insertRow.operatorID, insertRow.lineName, insertRow.origin, insertRow.destination)
+    serviceList.append([insertRow.fileName, insertRow.serviceCode, insertRow.operatorID, insertRow.lineName, insertRow.origin, insertRow.destination])
+print(tabulate(serviceList, headers='firstrow',tablefmt='fancy_grid', showindex=True)) #print serviceList table
