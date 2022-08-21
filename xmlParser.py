@@ -13,6 +13,7 @@ from tabulate import tabulate
 
 #OPTIONS:
 fileNameToggle = False #toggles in Tabulate.
+indexToggle = True
 
 #Path Roots for easy modification
 rootPath = './'
@@ -28,7 +29,7 @@ nationalOperatorCodePath = operatorPath + http + 'Operator/'
 class tableRow:
     def __init__(self):
         self.filePath = ''
-        self.fileName = ''
+        self.fileName = 'File Name'
         self.operatorID = 'Operator ID'
         self.noc = 'NOC'
         self.lineName = 'Line Name'
@@ -84,4 +85,4 @@ for fileName in fileList:
         serviceList.append([insertRow.fileName, insertRow.serviceCode, insertRow.operatorID, insertRow.lineName, insertRow.origin, insertRow.destination])
     else:
         serviceList.append([insertRow.serviceCode, insertRow.operatorID, insertRow.lineName, insertRow.origin, insertRow.destination])
-print(tabulate(serviceList, headers='firstrow',tablefmt='fancy_grid', showindex=True)) #print serviceList table
+print(tabulate(serviceList, headers='firstrow',tablefmt='fancy_grid', showindex=indexToggle)) #print serviceList table
