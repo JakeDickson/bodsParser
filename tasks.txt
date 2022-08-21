@@ -1,0 +1,8 @@
+read from xml folder, loop through contents of folder and add to table
+create table object and insert into table at end of each file loop
+tidy up formatting
+remove print statements
+use tabulate to prettify results at end
+
+extended tasks:
+move to cpp -> struct/class for holding each row and print table
