@@ -1,4 +1,5 @@
 # bodsParser - Basic XML Parser for TransXChange formats
+![alt text](https://github.com/JakeDickson/bodsParser/blob/master/sampleTable.png?raw=true)
 
 TO USE: Extract XML files to 'xmlParser.py folder'/xml/ and run the python
 file (python3). Output is printed to terminal using Tabulate. Included are
