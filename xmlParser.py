@@ -17,7 +17,7 @@ standardServicePath = servicePath + http + 'StandardService/'
 operatorPath = rootPath + http + 'Operators/'
 nationalOperatorCodePath = operatorPath + http + 'Operator/'
 
-#define class for each table row. Helpfully a tableRow can be initialised as first row headers :)
+#Define class for each table row. tableRow can be initialised as first row headers
 class tableRow:
     def __init__(self):
         self.filePath = ''
@@ -29,17 +29,17 @@ class tableRow:
         self.origin = 'Origin'
         self.destination = 'Destination'
 
-#move file search import after static defines
+#Create list of XML files from directory.
 cwd = os.getcwd() + '/xml/'
 fileList = os.listdir(cwd)
 fileList[:] = [x for x in fileList if x.endswith('.xml')]
 
-#create list of services and add static header for tabulate.
+#Create list of Services and add static header for Tabulate.
 serviceList = []
 headerList = tableRow()
 serviceList.append([headerList.fileName, headerList.serviceCode, headerList.operatorID, headerList.lineName, headerList.origin, headerList.destination]) #for table headers
 
-#Assuming there is files in directory etc...
+#Assuming there are files in directory, iterate through, insert to tableRow and add to list.
 for fileName in fileList:
     insertRow = tableRow()
     tree = ElementTree.parse(cwd + fileName)
